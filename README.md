@@ -10,4 +10,3 @@ Mouse Control
 
 Selection hotkeys
 
-https://github.com/Retoonet/InsectGame.git
