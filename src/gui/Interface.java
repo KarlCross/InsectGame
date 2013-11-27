@@ -1,5 +1,6 @@
 package gui;
 
+import frames.Frame;
 import global.GameThread;
 import input.KeyboardController;
 
@@ -11,6 +12,7 @@ import javax.swing.JFrame;
 
 /**
  * The game window.
+ * 
  * @author Dan
  */
 public class Interface extends JFrame {
@@ -24,7 +26,7 @@ public class Interface extends JFrame {
 	/**
 	 * Constructor.
 	 */
-	public Interface()
+	public Interface(Frame initialFrame)
 	{
 		// Setup.
 		setSize(816, 800);
@@ -47,6 +49,6 @@ public class Interface extends JFrame {
         bs = canvas.getBufferStrategy();
     
        // Start game threads.
-       GameThread.startGameThreads(canvas, bs);
+       GameThread.startGameThreads(canvas, bs, initialFrame);
 	}
 }

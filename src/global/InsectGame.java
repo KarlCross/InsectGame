@@ -1,5 +1,7 @@
 package global;
 
+import frames.Game;
+import frames.Menu;
 import gui.Interface;
 
 import javax.swing.UIManager;
@@ -34,7 +36,11 @@ public class InsectGame {
 			}
 		};
 		
+		// Instantiate all frames.
+		Global.MENU = new Menu();
+		Global.GAME = new Game();
+		
 		// Start the interface.
-		new Interface();
+		Global.INTERFACE = new Interface(Global.MENU);
 	}
 }

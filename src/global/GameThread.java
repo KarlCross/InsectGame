@@ -1,31 +1,36 @@
 package global;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
 
+import frames.Frame;
+
 /**
  * This class starts game update and canvas rendering threads.
+ * GameUpdate and drawing methods are only called on the active frame.
  * @author Dan
- *
  */
 public abstract class GameThread {
 
+	// Current frame to draw.
+	private static Frame activeFrame = null;
+	
 	// Game update rate (ms)
 	public static final int GAME_UPDATE_RATE = 10;
 	
 	// Toggle to pause canvas rendering.
-	public static boolean PAUSE_RENDERING = false;
+	private static boolean PAUSE_RENDERING = false;
 	
 	/**
 	 * Start both game update and rendering threads.
 	 * A Canvas and BufferStrategy are required to draw upon.
 	 */
-	public static void startGameThreads(Canvas canvas, BufferStrategy bs) {
+	public static void startGameThreads(Canvas canvas, BufferStrategy bs, Frame initialFrame) {
 		update();
 		render(canvas, bs);
+		activeFrame = initialFrame;
 	}
 	
 	/**
@@ -42,7 +47,9 @@ public abstract class GameThread {
 						if (System.currentTimeMillis() - lastUpdate > GAME_UPDATE_RATE) {
 							lastUpdate = System.currentTimeMillis();
 							
-							// Update stuff.
+							// Tell the current frame to update.
+							if (activeFrame != null)
+								activeFrame.update();
 							
 						}
 					}
@@ -70,12 +77,11 @@ public abstract class GameThread {
 							g2d = (Graphics2D) bs.getDrawGraphics();
 							g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 							
-							// Fill the background.
-							g2d.setBackground(Color.WHITE);
-							g2d.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+							g2d.setClip(0, 0, canvas.getWidth(), canvas.getHeight());
 							
-							// Draw stuff.
-							
+							// Tell the current frame to draw itself.
+							if (activeFrame != null)
+								activeFrame.draw(g2d);
 							
 							// Blit the back buffer to the screen.
 						    if(!bs.contentsLost())
@@ -95,4 +101,11 @@ public abstract class GameThread {
 			}
 		}.start();
 	}
+	
+	/**
+	 * Set/get the active drawing frame.
+	 */
+	public static void setActiveFrame(Frame f) { activeFrame = f; }
+	public static Frame getActiveFrame() { return activeFrame; }
+	
 }
