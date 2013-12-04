@@ -71,8 +71,7 @@ public class Graph {
 							}
 						}
 					}
-					System.out.println(ns.length+" "+ns[0].length);
-					System.out.println(x+" "+y);
+					
 					if (y < ns.length-1 && x < ns[0].length-1) {
 						Node node =  (ns[y+1][x+1] );
 						if (node != null) {
