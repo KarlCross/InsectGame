@@ -2,6 +2,7 @@ package global;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -18,7 +19,8 @@ public class Graph {
 	private Node current;
 	private int NODE_SPACING = 32;
 	
-	public Graph(int[][] flagArray, int node_spacing) {
+	public Graph(BufferedImage img, int node_spacing) {
+		int[][] flagArray = build_collision_graph(img);
 		NODE_SPACING = node_spacing;
 		// New array for nodes
 		ns = new Node[flagArray.length][flagArray[0].length];
@@ -165,6 +167,27 @@ public class Graph {
 				n.came_from = null;			
 		}	
 		return path;
+	}
+	
+	private int[][] build_collision_graph(BufferedImage img) {
+		int[][] flagArray = new int[img.getWidth()][img.getHeight()];
+		for(int y = 0; y< img.getHeight()-NODE_SPACING; y+=NODE_SPACING) {
+			for (int x = 0; x < img.getWidth()-NODE_SPACING; x += NODE_SPACING) {
+				// Get the colour of the four corners and set the array flag accordingly
+				// Top left x,y
+				int impassable = 0;
+				int rgb = img.getRGB(x, y);
+				if(rgb < -10000) {
+					impassable++;
+				}
+				
+				// None of the corners were impassable
+				if (impassable < 1)
+					flagArray[x/NODE_SPACING][y/NODE_SPACING] = 1;
+			}
+		}
+		return flagArray;
+		
 	}
 	
 	/**

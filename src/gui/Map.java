@@ -1,5 +1,7 @@
 package gui;
 
+import global.Graph;
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -15,6 +17,7 @@ public class Map {
 	// Images.
 	private static BufferedImage GROUND;
 	private static BufferedImage COLLIDER;
+	public Graph GRAPH;
 	
 	/**
 	 * Constructor.
@@ -23,6 +26,9 @@ public class Map {
 		try {
 			GROUND = ImageIO.read(Map.class.getResource("/" + map + "/" + map + ".png"));
 			COLLIDER = ImageIO.read(Map.class.getResource("/" + map + "/" + map + "_collider.png"));
+			
+			// Create graph
+			GRAPH = new Graph(COLLIDER, 32);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -7,6 +7,7 @@ public abstract class Structure {
 	//Image of the structure
 	protected BufferedImage image;
 	protected int x, y;
+	protected int HP, DEF;
 	
 	public Structure(int x, int y, BufferedImage image) {
 		this.image = image;
