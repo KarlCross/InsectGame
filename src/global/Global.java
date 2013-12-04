@@ -3,6 +3,7 @@ package global;
 import frames.Game;
 import frames.Menu;
 import gui.Interface;
+import gui.Map;
 
 /**
  * Global variable class.
@@ -18,5 +19,8 @@ public abstract class Global {
 	
 	// Game Frame.
 	public static Game GAME;
+	
+	// Current loaded game map
+	public static Map CURRENT_MAP;
 	
 }
