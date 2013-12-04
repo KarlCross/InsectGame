@@ -38,8 +38,10 @@ public class Game implements View {
 	 */
 	@Override
 	public void draw(Graphics2D g2d) {
-		g2d.setBackground(Color.RED);
-		g2d.clearRect(0, 0, g2d.getClipBounds().width, g2d.getClipBounds().height);
+		// Draw map.
+		Global.CURRENT_MAP.draw(g2d);
+		
+		// TEST
 		g2d.setColor(Color.BLACK);
 		g2d.drawString("Game - Press 'm' for menu screen", 10, 60);
 		

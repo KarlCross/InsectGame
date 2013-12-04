@@ -5,6 +5,7 @@ import javax.swing.UIManager;
 import frames.Game;
 import frames.Menu;
 import gui.Interface;
+import gui.Map;
 
 /**
  * Game entry class.
@@ -36,7 +37,10 @@ public class InsectGame {
 			}
 		};
 		
-		// Instantiate all frames.
+		// Load Maps.
+		Global.CURRENT_MAP = new Map("map1");
+		
+		// Instantiate all views.
 		Global.MENU = new Menu();
 		Global.GAME = new Game();
 		
