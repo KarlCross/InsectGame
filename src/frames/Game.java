@@ -11,10 +11,10 @@ import java.awt.event.KeyEvent;
 import player.Player;
 
 /**
- * The game frame.
+ * The game view.
  * @author Dan
  */
-public class Game implements Frame {
+public class Game implements View {
 	
 	private long lastUpdate = 0;
 	
