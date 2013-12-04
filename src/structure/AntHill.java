@@ -2,7 +2,6 @@ package structure;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
 
 public class AntHill extends Structure {
 	
@@ -11,10 +10,8 @@ public class AntHill extends Structure {
 	private int unit_cost = 200;
 	private int build_progress = 0;
 	
-	
-
-	public AntHill(int x, int y, BufferedImage image) {
-		super(x, y, image);
+	public AntHill(int x, int y) {
+		super(x, y);
 	}
 
 	@Override
@@ -24,6 +21,7 @@ public class AntHill extends Structure {
 
 	@Override
 	protected void configure() {
+		image = ImageList.ANTHILL;
 		HP = 5000;
 		DEF = 500;
 		WAYPOINT = new Point(x+50, y);

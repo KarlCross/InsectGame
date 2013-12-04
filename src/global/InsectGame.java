@@ -2,6 +2,9 @@ package global;
 
 import javax.swing.UIManager;
 
+import player.Player;
+import structure.AntHill;
+
 import frames.Game;
 import frames.Menu;
 import gui.Interface;
@@ -46,5 +49,10 @@ public class InsectGame {
 		
 		// Start the interface.
 		Global.INTERFACE = new Interface(Global.MENU);
+		
+		
+		
+		
+		Player.STRUCTURES.add(new AntHill(50, 50));
 	}
 }

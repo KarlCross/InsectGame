@@ -9,8 +9,9 @@ public abstract class Structure {
 	protected int x, y;
 	protected int HP, DEF;
 	
-	public Structure(int x, int y, BufferedImage image) {
-		this.image = image;
+	public Structure(int x, int y) {
+		this.x = x;
+		this.y = y;
 		configure();
 	}
 	

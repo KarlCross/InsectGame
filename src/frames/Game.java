@@ -4,11 +4,11 @@ import global.GameThread;
 import global.Global;
 import gui.HUD;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 import player.Player;
+import structure.Structure;
 
 /**
  * The game view.
@@ -41,9 +41,16 @@ public class Game implements View {
 		// Draw map.
 		Global.CURRENT_MAP.draw(g2d);
 		
-		// TEST
-		g2d.setColor(Color.BLACK);
-		g2d.drawString("Game - Press 'm' for menu screen", 10, 60);
+		// Draw buildings.
+		synchronized (Player.STRUCTURES) {
+			for (Structure s : Player.STRUCTURES) {
+				s.draw(g2d);
+			}
+		}
+		
+		// Draw units.
+		
+		
 		
 		// HUD.
 		HUD.draw(g2d);
