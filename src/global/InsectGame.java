@@ -1,10 +1,10 @@
 package global;
 
+import javax.swing.UIManager;
+
 import frames.Game;
 import frames.Menu;
 import gui.Interface;
-
-import javax.swing.UIManager;
 
 /**
  * Game entry class.

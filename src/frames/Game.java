@@ -2,10 +2,13 @@ package frames;
 
 import global.GameThread;
 import global.Global;
+import gui.HUD;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+
+import player.Player;
 
 /**
  * The game frame.
@@ -13,13 +16,21 @@ import java.awt.event.KeyEvent;
  */
 public class Game implements Frame {
 	
+	private long lastUpdate = 0;
+	
 	/**
 	 * Game update.
 	 */
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		// TESTING - Increase resources by a little.
+		if (System.currentTimeMillis() - lastUpdate > 1000) {
+			Player.FOOD++;
+			Player.LEAVES++;
+			Player.MUD++;
+			Player.TWIGS++;
+			lastUpdate = System.currentTimeMillis();
+		}
 	}
 
 	/**
@@ -30,7 +41,10 @@ public class Game implements Frame {
 		g2d.setBackground(Color.RED);
 		g2d.clearRect(0, 0, g2d.getClipBounds().width, g2d.getClipBounds().height);
 		g2d.setColor(Color.BLACK);
-		g2d.drawString("Game - Press 'm' for menu screen", 10, 20);
+		g2d.drawString("Game - Press 'm' for menu screen", 10, 60);
+		
+		// HUD.
+		HUD.draw(g2d);
 	}
 
 	/**

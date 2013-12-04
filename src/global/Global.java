@@ -19,5 +19,4 @@ public abstract class Global {
 	// Game Frame.
 	public static Game GAME;
 	
-	
 }

@@ -45,12 +45,13 @@ public abstract class GameThread {
 					long lastUpdate = 0;
 					while (true) {
 						if (System.currentTimeMillis() - lastUpdate > GAME_UPDATE_RATE) {
-							lastUpdate = System.currentTimeMillis();
 							
 							// Tell the current frame to update.
 							if (activeFrame != null)
 								activeFrame.update();
 							
+							// Remember last update time.
+							lastUpdate = System.currentTimeMillis();
 						}
 					}
 				} catch (Exception e) {
