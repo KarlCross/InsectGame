@@ -5,17 +5,17 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
 
-import frames.Frame;
+import frames.View;
 
 /**
  * This class starts game update and canvas rendering threads.
- * GameUpdate and drawing methods are only called on the active frame.
+ * GameUpdate and drawing methods are only called on the active view.
  * @author Dan
  */
 public abstract class GameThread {
 
-	// Current frame to draw.
-	private static Frame activeFrame = null;
+	// Current view to draw.
+	private static View activeView = null;
 	
 	// Game update rate (ms)
 	public static final int GAME_UPDATE_RATE = 10;
@@ -27,10 +27,10 @@ public abstract class GameThread {
 	 * Start both game update and rendering threads.
 	 * A Canvas and BufferStrategy are required to draw upon.
 	 */
-	public static void startGameThreads(Canvas canvas, BufferStrategy bs, Frame initialFrame) {
+	public static void startGameThreads(Canvas canvas, BufferStrategy bs, View initialFrame) {
 		update();
 		render(canvas, bs);
-		activeFrame = initialFrame;
+		activeView = initialFrame;
 	}
 	
 	/**
@@ -47,8 +47,8 @@ public abstract class GameThread {
 						if (System.currentTimeMillis() - lastUpdate > GAME_UPDATE_RATE) {
 							
 							// Tell the current frame to update.
-							if (activeFrame != null)
-								activeFrame.update();
+							if (activeView != null)
+								activeView.update();
 							
 							// Remember last update time.
 							lastUpdate = System.currentTimeMillis();
@@ -81,8 +81,8 @@ public abstract class GameThread {
 							g2d.setClip(0, 0, canvas.getWidth(), canvas.getHeight());
 							
 							// Tell the current frame to draw itself.
-							if (activeFrame != null)
-								activeFrame.draw(g2d);
+							if (activeView != null)
+								activeView.draw(g2d);
 							
 							// Blit the back buffer to the screen.
 						    if(!bs.contentsLost())
@@ -106,7 +106,7 @@ public abstract class GameThread {
 	/**
 	 * Set/get the active drawing frame.
 	 */
-	public static void setActiveFrame(Frame f) { activeFrame = f; }
-	public static Frame getActiveFrame() { return activeFrame; }
+	public static void setActiveFrame(View f) { activeView = f; }
+	public static View getActiveFrame() { return activeView; }
 	
 }

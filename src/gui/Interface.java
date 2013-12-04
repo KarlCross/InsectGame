@@ -1,6 +1,6 @@
 package gui;
 
-import frames.Frame;
+import frames.View;
 import global.GameThread;
 import input.KeyboardController;
 
@@ -26,7 +26,7 @@ public class Interface extends JFrame {
 	/**
 	 * Constructor.
 	 */
-	public Interface(Frame initialFrame)
+	public Interface(View initialFrame)
 	{
 		// Setup.
 		setSize(816, 800);
