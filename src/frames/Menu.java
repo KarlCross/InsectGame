@@ -8,10 +8,10 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 /**
- * The menu frame.
+ * The menu view.
  * @author Dan
  */
-public class Menu implements Frame {
+public class Menu implements View {
 
 	/**
 	 * Game update.
