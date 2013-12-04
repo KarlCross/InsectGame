@@ -28,7 +28,7 @@ public class Graph {
 			for (int x = 0; x < flagArray[y].length; x++) {				
 				int pos_x = y*NODE_SPACING+(NODE_SPACING/2);
 				int pos_y = x*NODE_SPACING+(NODE_SPACING/2);
-				Node n = new Node(pos_x, pos_y, flagArray[x][y] == 1);
+				Node n = new Node(pos_x, pos_y, flagArray[y][x] == 1);
 				ns[y][x] = n;
 				nodes.add(n);				
 			}
@@ -60,7 +60,7 @@ public class Graph {
 							}
 						}
 					}
-					if (y > 0 && x < ns.length) {
+					if (y > 0 && x < ns[0].length-1) {
 						Node node =  (ns[y-1][x+1] );
 						if (node != null) {
 							Edge e = new Edge(ns[y][x], node);
@@ -71,7 +71,9 @@ public class Graph {
 							}
 						}
 					}
-					if (y < ns.length && x > 0) {
+					System.out.println(ns.length+" "+ns[0].length);
+					System.out.println(x+" "+y);
+					if (y < ns.length-1 && x < ns[0].length-1) {
 						Node node =  (ns[y+1][x+1] );
 						if (node != null) {
 							Edge e = new Edge(ns[y][x], node);
@@ -83,7 +85,7 @@ public class Graph {
 						}
 					}
 					
-					if (x < ns[y].length) {
+					if (x < ns[y].length-1) {
 						Node node =  (ns[y][x+1] );
 						if (node != null) {
 							Edge e = new Edge(ns[y][x], node);
@@ -170,7 +172,7 @@ public class Graph {
 	}
 	
 	private int[][] build_collision_graph(BufferedImage img) {
-		int[][] flagArray = new int[img.getWidth()][img.getHeight()];
+		int[][] flagArray = new int[img.getWidth()/NODE_SPACING][img.getHeight()/NODE_SPACING];
 		for(int y = 0; y< img.getHeight()-NODE_SPACING; y+=NODE_SPACING) {
 			for (int x = 0; x < img.getWidth()-NODE_SPACING; x += NODE_SPACING) {
 				// Get the colour of the four corners and set the array flag accordingly
