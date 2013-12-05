@@ -206,15 +206,16 @@ public class Graph {
 		public Node came_from = null;
 		public boolean active = false;
 		
-		public ArrayList<Edge> getNeighbours() {
-			return neighbours;
-		}
-		
 		public Node(int pos_x, int pos_y, boolean active) {
 			this.active = active;
 			this.x = pos_x;
 			this.y = pos_y;
 		}
+		
+		public ArrayList<Edge> getNeighbours() {
+			return neighbours;
+		}
+		
 		
 		public void addNeighbour(Edge e) {
 			this.neighbours.add(e);	

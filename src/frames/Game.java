@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 
 import player.Player;
 import structure.Structure;
+import unit.Ant;
 
 /**
  * The game view.
@@ -31,6 +32,20 @@ public class Game implements View {
 			Player.TWIGS++;
 			lastUpdate = System.currentTimeMillis();
 		}
+		// Update buildings.
+		synchronized (Player.STRUCTURES) {
+			for (Structure s : Player.STRUCTURES) {
+				s.update();
+			}
+		}
+		
+		// Update units.
+		
+		synchronized (Global.BUGS) {
+			for (Ant a : Global.BUGS) {
+				a.update();
+			}
+		}
 	}
 
 	/**
@@ -49,6 +64,12 @@ public class Game implements View {
 		}
 		
 		// Draw units.
+		
+		synchronized (Global.BUGS) {
+			for (Ant a : Global.BUGS) {
+				a.draw(g2d);
+			}
+		}
 		
 		
 		
