@@ -2,6 +2,7 @@ package global;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -18,7 +19,8 @@ public class Graph {
 	private Node current;
 	private int NODE_SPACING = 32;
 	
-	public Graph(int[][] flagArray, int node_spacing) {
+	public Graph(BufferedImage img, int node_spacing) {
+		int[][] flagArray = build_collision_graph(img);
 		NODE_SPACING = node_spacing;
 		// New array for nodes
 		ns = new Node[flagArray.length][flagArray[0].length];
@@ -26,7 +28,7 @@ public class Graph {
 			for (int x = 0; x < flagArray[y].length; x++) {				
 				int pos_x = y*NODE_SPACING+(NODE_SPACING/2);
 				int pos_y = x*NODE_SPACING+(NODE_SPACING/2);
-				Node n = new Node(pos_x, pos_y, flagArray[x][y] == 1);
+				Node n = new Node(pos_x, pos_y, flagArray[y][x] == 1);
 				ns[y][x] = n;
 				nodes.add(n);				
 			}
@@ -58,7 +60,7 @@ public class Graph {
 							}
 						}
 					}
-					if (y > 0 && x < ns.length) {
+					if (y > 0 && x < ns[0].length-1) {
 						Node node =  (ns[y-1][x+1] );
 						if (node != null) {
 							Edge e = new Edge(ns[y][x], node);
@@ -69,7 +71,8 @@ public class Graph {
 							}
 						}
 					}
-					if (y < ns.length && x > 0) {
+					
+					if (y < ns.length-1 && x < ns[0].length-1) {
 						Node node =  (ns[y+1][x+1] );
 						if (node != null) {
 							Edge e = new Edge(ns[y][x], node);
@@ -81,7 +84,7 @@ public class Graph {
 						}
 					}
 					
-					if (x < ns[y].length) {
+					if (x < ns[y].length-1) {
 						Node node =  (ns[y][x+1] );
 						if (node != null) {
 							Edge e = new Edge(ns[y][x], node);
@@ -167,6 +170,27 @@ public class Graph {
 		return path;
 	}
 	
+	private int[][] build_collision_graph(BufferedImage img) {
+		int[][] flagArray = new int[img.getWidth()/NODE_SPACING][img.getHeight()/NODE_SPACING];
+		for(int y = 0; y< img.getHeight()-NODE_SPACING; y+=NODE_SPACING) {
+			for (int x = 0; x < img.getWidth()-NODE_SPACING; x += NODE_SPACING) {
+				// Get the colour of the four corners and set the array flag accordingly
+				// Top left x,y
+				int impassable = 0;
+				int rgb = img.getRGB(x, y);
+				if(rgb < -10000) {
+					impassable++;
+				}
+				
+				// None of the corners were impassable
+				if (impassable < 1)
+					flagArray[x/NODE_SPACING][y/NODE_SPACING] = 1;
+			}
+		}
+		return flagArray;
+		
+	}
+	
 	/**
 	 * A node
 	 * @author kwss2
@@ -182,15 +206,16 @@ public class Graph {
 		public Node came_from = null;
 		public boolean active = false;
 		
-		public ArrayList<Edge> getNeighbours() {
-			return neighbours;
-		}
-		
 		public Node(int pos_x, int pos_y, boolean active) {
 			this.active = active;
 			this.x = pos_x;
 			this.y = pos_y;
 		}
+		
+		public ArrayList<Edge> getNeighbours() {
+			return neighbours;
+		}
+		
 		
 		public void addNeighbour(Edge e) {
 			this.neighbours.add(e);	

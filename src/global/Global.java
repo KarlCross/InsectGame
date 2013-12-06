@@ -1,8 +1,12 @@
 package global;
 
+import java.util.ArrayList;
+
 import frames.Game;
 import frames.Menu;
 import gui.Interface;
+import gui.Map;
+import unit.Ant;
 
 /**
  * Global variable class.
@@ -18,5 +22,17 @@ public abstract class Global {
 	
 	// Game Frame.
 	public static Game GAME;
+	
+	// Current loaded game map
+	public static Map CURRENT_MAP;
+	
+	// Formation toggled
+	public static boolean FORMATION = false;
+	
+	// All the bugs
+	public static ArrayList<Ant> BUGS = new ArrayList<Ant>();
+	
+	// For later
+	public static ArrayList<Ant> SELECTED_BUGS = new ArrayList<Ant>();
 	
 }
