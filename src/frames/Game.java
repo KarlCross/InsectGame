@@ -56,6 +56,9 @@ public class Game implements View {
 		case 'm':
 			GameThread.setActiveFrame(Global.MENU);
 			break;
+		case 'x':
+			System.exit(0);
+			break;
 		}
 	}
 	@Override

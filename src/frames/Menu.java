@@ -42,6 +42,9 @@ public class Menu implements View {
 		case 'g':
 			GameThread.setActiveFrame(Global.GAME);
 			break;
+		case 'x':
+			System.exit(0);
+			break;
 		}
 	}
 	@Override

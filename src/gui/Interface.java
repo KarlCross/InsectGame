@@ -1,21 +1,23 @@
 package gui;
 
-import frames.View;
-import global.GameThread;
 import input.KeyboardController;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Window;
 import java.awt.image.BufferStrategy;
 
-import javax.swing.JFrame;
+import frames.View;
+import global.GameThread;
 
 /**
  * The game window.
  * 
  * @author Dan
  */
-public class Interface extends JFrame {
+public class Interface extends Window {
 
 	// Canvas on which the graphs are drawn.
 	private static Canvas canvas = new Canvas();
@@ -26,17 +28,16 @@ public class Interface extends JFrame {
 	/**
 	 * Constructor.
 	 */
-	public Interface(View initialFrame)
+	public Interface(View initialFrame, GraphicsDevice gd)
 	{
+		super(null, gd.getDefaultConfiguration());
 		// Setup.
-		setSize(816, 800);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		canvas.setIgnoreRepaint(true);
+		
 		
 		// Add keyboard listener (may need to add to JFrame also).
 		KeyboardController kc = new KeyboardController();
-		canvas.addKeyListener(kc);
+		this.addKeyListener(kc);
 		
 		// Add Components
 		add(canvas, BorderLayout.CENTER);

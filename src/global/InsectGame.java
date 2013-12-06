@@ -1,5 +1,8 @@
 package global;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 import javax.swing.UIManager;
 
 import frames.Game;
@@ -41,6 +44,8 @@ public class InsectGame {
 		Global.GAME = new Game();
 		
 		// Start the interface.
-		Global.INTERFACE = new Interface(Global.MENU);
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+		Global.INTERFACE = new Interface(Global.MENU, gd);
+		gd.setFullScreenWindow(Global.INTERFACE);
 	}
 }
