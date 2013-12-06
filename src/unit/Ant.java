@@ -136,7 +136,6 @@ public class Ant {
 					
 				} else {
 					int d = (int)( Math.sqrt(Global.BUGS.size()) * 16);
-					System.out.println(d);
 					p.x += r.nextInt(d+16)-(d/2);
 					p.y += r.nextInt(d+16)-(d/2);
 				}

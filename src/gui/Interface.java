@@ -5,9 +5,10 @@ import input.KeyboardController;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Window;
 import java.awt.image.BufferStrategy;
+
+import javax.swing.JFrame;
 
 import frames.View;
 import global.GameThread;
@@ -28,16 +29,19 @@ public class Interface extends Window {
 	/**
 	 * Constructor.
 	 */
-	public Interface(View initialFrame, GraphicsDevice gd)
+	public Interface(View initialFrame, GraphicsDevice gd, JFrame frame)
 	{
-		super(null, gd.getDefaultConfiguration());
+		super(frame, gd.getDefaultConfiguration());
+		gd.setFullScreenWindow(this);
 		// Setup.
+		//setSize(800, 816);
 		canvas.setIgnoreRepaint(true);
 		
 		
 		// Add keyboard listener (may need to add to JFrame also).
 		KeyboardController kc = new KeyboardController();
-		this.addKeyListener(kc);
+		canvas.addKeyListener(kc);
+		canvas.setFocusable(true);
 		
 		// Add Components
 		add(canvas, BorderLayout.CENTER);

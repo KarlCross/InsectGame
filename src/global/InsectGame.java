@@ -1,8 +1,10 @@
 package global;
 
+import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 import player.Player;
@@ -51,11 +53,12 @@ public class InsectGame {
 		Global.GAME = new Game();
 		
 		// Start the interface.
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-		Global.INTERFACE = new Interface(Global.MENU, gd);
-		gd.setFullScreenWindow(Global.INTERFACE);
-		
-		
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		JFrame owner = new JFrame();
+		owner.pack();
+		owner.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		owner.setVisible(true);
+		Global.INTERFACE = new Interface(Global.MENU, gd, owner);
 		
 		
 		Player.STRUCTURES.add(new AntHill(50, 50));
