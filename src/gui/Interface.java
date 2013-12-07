@@ -1,6 +1,7 @@
 package gui;
 
 import input.KeyboardController;
+import input.MouseController;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -46,6 +47,9 @@ public class Interface extends Window {
 		// Add keyboard listener (may need to add to JFrame also).
 		KeyboardController kc = new KeyboardController();
 		canvas.addKeyListener(kc);
+		MouseController mc = new MouseController();
+		canvas.addMouseListener(mc);
+		canvas.addMouseMotionListener(mc);
 		canvas.setFocusable(true);
 		
 		// Add Components

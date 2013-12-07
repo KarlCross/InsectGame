@@ -84,6 +84,7 @@ public abstract class GameThread {
 							if (activeView != null)
 								activeView.draw(g2d);
 							
+							
 							// Blit the back buffer to the screen.
 						    if(!bs.contentsLost())
 						    	bs.show();

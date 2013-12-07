@@ -101,12 +101,12 @@ public class Ant {
 		public void draw(Graphics2D g2d) {
 			
 			// If selected.
-//			if (Global.SELECTED_BUGS.contains(this)) {
-//				g2d.setColor(new Color(0, 0, 255, 50));
-//				g2d.fillArc((int) x-12, (int) y-12, 24, 24, 0, 360);
-//				g2d.setColor(Color.BLACK);
-//				g2d.drawArc((int) x-12, (int) y-12, 24, 24, 0, 360);
-//			}
+			if (Global.SELECTED_BUGS.contains(this)) {
+				g2d.setColor(new Color(0, 0, 255, 50));
+				g2d.fillArc((int) x-12, (int) y-12, 24, 24, 0, 360);
+				g2d.setColor(Color.BLACK);
+				g2d.drawArc((int) x-12, (int) y-12, 24, 24, 0, 360);
+			}
 			
 			// Bug heading.
 			AffineTransform at = g2d.getTransform();
