@@ -20,6 +20,11 @@ import global.GameThread;
  */
 public class Interface extends Window {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2573566264471514702L;
+
 	// Canvas on which the graphs are drawn.
 	private static Canvas canvas = new Canvas();
 		

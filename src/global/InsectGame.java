@@ -1,6 +1,10 @@
 package global;
 
-import java.awt.DisplayMode;
+import frames.Game;
+import frames.Menu;
+import gui.Interface;
+import gui.Map;
+
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
@@ -9,11 +13,6 @@ import javax.swing.UIManager;
 
 import player.Player;
 import structure.AntHill;
-
-import frames.Game;
-import frames.Menu;
-import gui.Interface;
-import gui.Map;
 
 /**
  * Game entry class.
