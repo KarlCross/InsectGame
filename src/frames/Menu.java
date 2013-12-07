@@ -3,10 +3,14 @@ package frames;
 import global.GameThread;
 import global.Global;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 
 /**
  * The menu view.
@@ -14,6 +18,16 @@ import java.awt.event.MouseEvent;
  */
 public class Menu extends View {
 
+	
+	/**
+	 * The area around the "Play" button. 
+	 */
+	private Rectangle2D rect;
+	/**
+	 * The area around the "Exit" button.
+	 */
+	private Rectangle2D rect2;
+	
 	/**
 	 * Game update.
 	 */
@@ -31,7 +45,17 @@ public class Menu extends View {
 		g2d.setBackground(Color.BLACK);
 		g2d.clearRect(0, 0, g2d.getClipBounds().width, g2d.getClipBounds().height);
 		g2d.setColor(Color.WHITE);
-		g2d.drawString("Menu - Press 'g' for game screen.", 10, 20);
+		g2d.setFont(new Font("Arial", Font.PLAIN, 50));
+		int x = Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 65;
+		int y = Toolkit.getDefaultToolkit().getScreenSize().height / 2;
+		g2d.drawString("Play", x, y);
+		g2d.drawString("Exit", x + 3, y + 120);
+		g2d.setStroke(new BasicStroke(4));
+		g2d.setColor(Color.CYAN);
+		rect = new Rectangle2D.Double(x - 10, y - 45, 115, 60);
+		g2d.draw(rect);
+		rect2 = new Rectangle2D.Double(x - 10, y + 73, 115, 60);
+		g2d.draw(rect2);
 	}
 
 	/**
@@ -61,8 +85,12 @@ public class Menu extends View {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(rect.contains(e.getPoint())) {
+			GameThread.setActiveFrame(Global.GAME);
+		} 
+		if(rect2.contains(e.getPoint())) {
+			System.exit(0);
+		}
 	}
 
 	@Override
