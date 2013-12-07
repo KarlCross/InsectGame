@@ -2,6 +2,9 @@ package frames;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 /**
  * All program drawing states (menu, game, etc.) must implement this
@@ -9,22 +12,16 @@ import java.awt.event.KeyEvent;
  * to draw in GameThread.
  * @author Dan
  */
-public interface View {
+public abstract class View implements KeyListener, MouseListener, MouseMotionListener {
 
 	/**
 	 * Update the current frame.
 	 */
-	public void update();
+	public abstract void update();
 	
 	/**
 	 * Draw the current frame.
 	 */
-	public void draw(Graphics2D g2d);
+	public abstract void draw(Graphics2D g2d);
 	
-	/**
-	 * Methods forwarded on from KeyboardController.
-	 */
-	public void keyPressed(KeyEvent e);
-	public void keyReleased(KeyEvent e);
-	public void keyTyped(KeyEvent e);
 }
