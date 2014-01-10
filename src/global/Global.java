@@ -6,7 +6,7 @@ import frames.Game;
 import frames.Menu;
 import gui.Interface;
 import gui.Map;
-import unit.Ant;
+import unit.Unit;
 
 /**
  * Global variable class.
@@ -30,9 +30,9 @@ public abstract class Global {
 	public static boolean FORMATION = false;
 	
 	// All the bugs
-	public static ArrayList<Ant> BUGS = new ArrayList<Ant>();
+	public static ArrayList<Unit> BUGS = new ArrayList<Unit>();
 	
 	// For later
-	public static ArrayList<Ant> SELECTED_BUGS = new ArrayList<Ant>();
+	public static ArrayList<Unit> SELECTED_BUGS = new ArrayList<Unit>();
 	
 }

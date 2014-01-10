@@ -12,7 +12,7 @@ import structure.Structure;
 public abstract class Player {
 
 	// Resources.
-	public static int FOOD = 150;
+	public static int FOOD = 1500;
 	public static int LEAVES = 0;
 	public static int TWIGS = 0;
 	public static int MUD = 0;

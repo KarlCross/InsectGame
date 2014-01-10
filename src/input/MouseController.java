@@ -1,12 +1,7 @@
 package input;
 
-import unit.Ant;
 import global.GameThread;
-import global.Global;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -36,7 +31,8 @@ public class MouseController implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		GameThread.getActiveFrame().mouseEntered(e);
+		if(GameThread.getActiveFrame() != null)
+			GameThread.getActiveFrame().mouseEntered(e);
 	}
 
 	@Override
@@ -52,7 +48,8 @@ public class MouseController implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		GameThread.getActiveFrame().mouseMoved(e);
+		if(GameThread.getActiveFrame() != null)
+			GameThread.getActiveFrame().mouseMoved(e);
 	}
 	
 	

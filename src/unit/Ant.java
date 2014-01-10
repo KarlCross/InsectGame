@@ -16,7 +16,9 @@ import javax.imageio.ImageIO;
 
 import structure.ImageList;
 
-public class Ant {
+public class Ant implements Unit {
+	
+	
 	// Position.
 		private double x, y;
 		
@@ -26,8 +28,6 @@ public class Ant {
 		// Bug heading.
 		private double heading = 0;
 		
-		// Path colour.
-		private Color pathColour;
 		
 		// Movement Path.
 		private ArrayList<Point> path = new ArrayList<Point>();
@@ -36,22 +36,13 @@ public class Ant {
 		private boolean selected = false;
 		
 		// Image of this bug.
-		private BufferedImage BUG_REST;
-		private ArrayList<BufferedImage> BUG_MOVE = new ArrayList<BufferedImage>();
+		private static BufferedImage BUG_REST;
+		private static ArrayList<BufferedImage> BUG_MOVE = new ArrayList<BufferedImage>();
 		
 		// Bug animation frame.
 		private double frame_pointer = 1;
 		
-		/**
-		 * Constructor.
-		 */
-		public Ant(double x, double y) {
-			this.x = x;
-			this.y = y;
-			
-			Random r = new Random();
-			pathColour = new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255));
-			
+		static {
 			// Load images.
 			try {
 				BUG_REST = ImageIO.read(ImageList.class.getResource("/units/" + "ant_rest.png"));
@@ -63,6 +54,17 @@ public class Ant {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
+		}
+		
+		/**
+		 * Constructor.
+		 */
+		public Ant() {
+			
+		}
+		public void setUp(double x, double y) {
+			this.x = x;
+			this.y = y;
 		}
 		
 		/**
@@ -117,9 +119,13 @@ public class Ant {
 		
 		/**
 		 * Find path to given point and set bug path.
+		 * @param p the end of the new path
+		 * @param group the size of the group heading to p
 		 */
-		public void pathTo(Point p) {
+		public void pathTo(Point p, int group) {
+			// TODO fixme (pupomio)
 			Random r = new Random();
+			int d = 0;
 			synchronized (path) {
 				if (Global.FORMATION) {
 					int rowLen = (int)Math.sqrt(Global.SELECTED_BUGS.size()+9);
@@ -133,13 +139,14 @@ public class Ant {
 					p.y+=(dy-(Global.SELECTED_BUGS.size()/rowLen*32)/2)+16;
 					
 				} else {
-					int d = (int)( Math.sqrt(Global.BUGS.size()) * 16);
+					d = (int)( Math.sqrt(group) * 16);
 					p.x += r.nextInt(d+16)-(d/2);
 					p.y += r.nextInt(d+16)-(d/2);
 				}
 				
 				path.clear();
 	            path.addAll(PathFinder.intelligentPath(new Point2D.Double(x, y), p));
+	          
 			}
 		}
 		
@@ -150,6 +157,17 @@ public class Ant {
 			selected = tf;
 		}
 		
+		/**
+		 * 
+		 * @return the default image for this unit
+		 */
+		public static BufferedImage getImage() {
+			return BUG_REST;
+		}
+		
+		/**
+		 * Accessors
+		 */
 		public double getX() { return x; }
 		public double getY() { return y; }
 		public boolean isSelected() { return selected; }

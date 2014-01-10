@@ -2,9 +2,8 @@ package frames;
 
 import global.GameThread;
 import global.Global;
+import gui.ContextItem;
 import gui.HUD;
-
-import input.MouseController;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -14,7 +13,7 @@ import java.awt.event.MouseEvent;
 
 import player.Player;
 import structure.Structure;
-import unit.Ant;
+import unit.Unit;
 
 /**
  * The game view.
@@ -23,6 +22,8 @@ import unit.Ant;
 public class Game extends View {
 	
 	private long lastUpdate = 0;
+	private Structure selected;
+	private ContextItem contextItem;
 	// Last pressed pos.
 	private static Point lastPressed = null;
 	private static Point draggedTo = null;
@@ -50,7 +51,7 @@ public class Game extends View {
 		// Update units.
 		
 		synchronized (Global.BUGS) {
-			for (Ant a : Global.BUGS) {
+			for (Unit a : Global.BUGS) {
 				a.update();
 			}
 		}
@@ -67,10 +68,15 @@ public class Game extends View {
 		// Drag box.
 		Point lastPressed_ = lastPressed, draggedTo_ = draggedTo;
 		if (lastPressed_ != null && draggedTo_ != null) {
+			int x1, x2, y1, y2;
+			x1 = (int) Math.min(lastPressed.x, draggedTo.x);
+			x2 = (int) Math.max(lastPressed.x, draggedTo.x);
+			y1 = (int) Math.min(lastPressed.y, draggedTo.y);
+			y2 = (int) Math.max(lastPressed.y, draggedTo.y);
 			g2d.setColor(new Color(255,0,0,80));
-			g2d.fillRect(lastPressed_.x, lastPressed_.y, draggedTo_.x-lastPressed_.x, draggedTo_.y-lastPressed_.y);
+			g2d.fillRect(x1, y1,x2-x1, y2-y1);
 			g2d.setColor(Color.BLACK);
-			g2d.drawRect(lastPressed_.x, lastPressed_.y, draggedTo_.x-lastPressed_.x, draggedTo_.y-lastPressed_.y);
+			g2d.drawRect(x1, y1,x2-x1, y2-y1);
 		}
 		
 		
@@ -84,7 +90,7 @@ public class Game extends View {
 		// Draw units.
 		
 		synchronized (Global.BUGS) {
-			for (Ant a : Global.BUGS) {
+			for (Unit a : Global.BUGS) {
 				a.draw(g2d);
 			}
 		}
@@ -113,10 +119,32 @@ public class Game extends View {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		lastPressed = e.getPoint();
+		for(Structure s : Player.STRUCTURES) {
+			if(s.getBounds().contains(e.getPoint())) {
+				selected = s;
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e1) {
+				}
+				if(s != null) {
+					s.showContextMenu(true);
+				}
+			}
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		
+		if(selected != null && contextItem != null) {
+			selected.doAction(contextItem.action, contextItem.params);
+		}
+		if(selected != null) {
+			selected.showContextMenu(false);
+		}
+
+		selected = null;
+		contextItem = null;
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			
 			if (!e.isShiftDown()) {
@@ -125,7 +153,7 @@ public class Game extends View {
 			
 			// Was drag box?
 			if (draggedTo == null) {				
-				for (Ant b : Global.BUGS) {
+				for (Unit b : Global.BUGS) {
 					double dist = Math.sqrt(Math.pow(b.getX() - e.getPoint().x, 2) + Math.pow(b.getY() - e.getPoint().y, 2));
 					if (dist < 20) {
 						Global.SELECTED_BUGS.add(b);
@@ -134,9 +162,14 @@ public class Game extends View {
 					}
 				}
 			} else {
-				for (Ant b : Global.BUGS) {
-					if (b.getX() > lastPressed.x && b.getX() < draggedTo.x) {
-						if (b.getY() > lastPressed.y && b.getY() < draggedTo.y)
+				int x1, x2, y1, y2;
+				x1 = (int) Math.min(lastPressed.x, draggedTo.x);
+				x2 = (int) Math.max(lastPressed.x, draggedTo.x);
+				y1 = (int) Math.min(lastPressed.y, draggedTo.y);
+				y2 = (int) Math.max(lastPressed.y, draggedTo.y);
+				for (Unit b : Global.BUGS) {
+					if (b.getX() > x1 && b.getX() < x2) {
+						if (b.getY() > y1 && b.getY() < y2)
 							Global.SELECTED_BUGS.add(b);
 						b.setSelected(true);
 					}
@@ -144,8 +177,8 @@ public class Game extends View {
 			}
 		}
 		else if (e.getButton() == MouseEvent.BUTTON3) {
-			for (Ant b : Global.SELECTED_BUGS) {
-				b.pathTo(e.getPoint());
+			for (Unit b : Global.SELECTED_BUGS) {
+				b.pathTo(e.getPoint(), Global.SELECTED_BUGS.size());
 			}
 		}
 		
@@ -156,7 +189,12 @@ public class Game extends View {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		draggedTo = e.getPoint();
+		if(selected != null) {
+			contextItem = selected.getSelectedContext(e.getPoint());
+		}
+		else {
+			draggedTo = e.getPoint();
+		}
 	}
 
 	@Override
